@@ -3,9 +3,7 @@
 <interface>
   <!-- interface-name topbat.ui -->
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkApplicationWindow">
-    <child>
-      <object class="GtkCenterBox">
+      <object class="GtkCenterBox" id="GtkCenterBox">
         <child type="start">
           <object class="GtkBox" id="left_box">
             <property name="halign">start</property>
@@ -40,6 +38,4 @@
           </object>
         </child>
       </object>
-    </child>
-  </object>
 </interface>
