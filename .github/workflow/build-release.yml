@@ -1,0 +1,30 @@
+name: Build and publish
+
+on:
+  push:
+    tags:
+      - "v*"
+env:
+  PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+  LD_LIBRARY_PATH: /usr/local/lib
+
+jobs:
+  build:
+    name: Layer build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install linux toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+      - name: Run cargo check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "target/debug/RUST_LAYER"
+          bodyFile: "Changes"
