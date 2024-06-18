@@ -2,7 +2,8 @@ use std::str;
 use tokio::process::Command;
 use tokio::runtime::Runtime;
 
-pub fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
+#[tokio::main]
+pub async fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
     let parts: Vec<&str> = command.split_whitespace().collect();
     let (command, args) = parts.split_at(1);
 
@@ -22,3 +23,16 @@ pub fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
         Ok(stdout)
     })
 }
+// async fn main() -> Result<(), Box<dyn std::error::Error>> {
+//     let mut command = Command::new("rofi")
+//        .args(&["-show", "drun"])
+//         // Redirect stdout/stderr if needed
+//        .stdout(Stdio::piped())
+//        .stderr(Stdio::piped());
+
+//     let output = task::spawn_blocking(move || command.spawn()).await??;
+
+//     println!("Output: {:?}", output);
+
+//     Ok(())
+// }
