@@ -1,15 +1,11 @@
-use crate::utils::exec_async::exec_async;
 use gtk::prelude::*;
 use gtk::ApplicationWindow;
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
 use hyprland::dispatch;
-use hyprland::dispatch::DispatchType::*;
-use hyprland::dispatch::WorkspaceIdentifier;
-use hyprland::dispatch::{
-    Corner, Dispatch, DispatchType, FullscreenType, WorkspaceIdentifierWithSpecial,
+use hyprland::{
+    dispatch::{Dispatch, DispatchType, WorkspaceIdentifierWithSpecial},
+    shared::{HyprData, HyprDataActive},
 };
-use hyprland::shared::HyprData;
-use hyprland::shared::HyprDataActive;
 
 pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
     let window = gtk::ApplicationWindow::new(application);
@@ -38,6 +34,18 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         .object("bar_CenterBox")
         .expect("Couldn't get GtkCenterBox");
 
+    border_buttons(&builder);
+
+    render_workspaces(builder);
+
+    window.set_child(Some(&master_center_box));
+    window.set_namespace("top_bar");
+    window.set_widget_name("top_bar");
+
+    window
+}
+
+fn border_buttons(builder: &gtk::Builder) {
     let app_launcher_button: gtk::Button = builder
         .object("app_launcher_button")
         .expect("Couldn't get GtkButton app_launcher_button");
@@ -63,7 +71,8 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         .expect("Couldn't get GtkImage app_launcher_button_icon");
     app_launcher_button_icon.set_pixel_size(25);
     app_launcher_button_icon.set_from_file(Some("assets/applauncher.svg"));
-
+}
+fn render_workspaces(builder: gtk::Builder) {
     let workspaces_box: gtk::Box = builder
         .object("workspaces_box")
         .expect("Couldn't get GtkBox workspaces_box");
@@ -100,14 +109,7 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         }
     };
     update_workspaces();
-
-    window.set_child(Some(&master_center_box));
-    window.set_namespace("top_bar");
-    window.set_widget_name("top_bar");
-
-    window
 }
-
 /* import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
