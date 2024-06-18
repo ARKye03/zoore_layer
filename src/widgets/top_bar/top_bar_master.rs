@@ -1,8 +1,15 @@
+use crate::utils::exec_async::exec_async;
 use gtk::prelude::*;
 use gtk::ApplicationWindow;
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
-
-use crate::utils;
+use hyprland::dispatch;
+use hyprland::dispatch::DispatchType::*;
+use hyprland::dispatch::WorkspaceIdentifier;
+use hyprland::dispatch::{
+    Corner, Dispatch, DispatchType, FullscreenType, WorkspaceIdentifierWithSpecial,
+};
+use hyprland::shared::HyprData;
+use hyprland::shared::HyprDataActive;
 
 pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
     let window = gtk::ApplicationWindow::new(application);
@@ -35,7 +42,20 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         .object("app_launcher_button")
         .expect("Couldn't get GtkButton app_launcher_button");
     app_launcher_button.connect_clicked(|_| {
-        _ = utils::exec_async::exec_async("notify-send \"Hello World\"");
+        std::process::Command::new("rofi")
+            .arg("-show")
+            .arg("drun")
+            .spawn()
+            .expect("Failed to execute process");
+    });
+
+    let sys_button: gtk::Button = builder
+        .object("sys_button")
+        .expect("Couldn't get GtkButton sys_button");
+    sys_button.connect_clicked(|_| {
+        std::process::Command::new("/home/archkye/.config/rofi/powermenu/type-4/powermenu.sh")
+            .spawn()
+            .expect("Failed to execute process");
     });
 
     let app_launcher_button_icon: gtk::Image = builder
@@ -43,6 +63,43 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         .expect("Couldn't get GtkImage app_launcher_button_icon");
     app_launcher_button_icon.set_pixel_size(25);
     app_launcher_button_icon.set_from_file(Some("assets/applauncher.svg"));
+
+    let workspaces_box: gtk::Box = builder
+        .object("workspaces_box")
+        .expect("Couldn't get GtkBox workspaces_box");
+
+    let wicons = [" ", " ", "󰨞 ", " ", " ", "󰭹 ", " ", " ", "󰊖 ", " "];
+    let arr: Vec<i32> = (1..10).collect();
+
+    let update_workspaces = || {
+        let workspaces = hyprland::data::Workspaces::get().unwrap();
+
+        for i in &arr {
+            let mut class_name = "";
+            match hyprland::data::Workspace::get_active() {
+                Ok(active_workspace) => {
+                    if active_workspace.id == *i {
+                        class_name = "focused";
+                    } else if workspaces.iter().any(|ws| ws.id == *i && ws.windows > 0) {
+                        class_name = "work";
+                    }
+                }
+                Err(e) => {
+                    eprintln!("Error getting active workspace: {:?}", e);
+                }
+            }
+            let w_button = gtk::Button::new();
+            w_button.set_label(wicons[*i as usize - 1]);
+            w_button.set_css_classes(&[class_name]);
+            let i_clone = *i; // Clone `i` here
+            w_button.connect_clicked(move |_| {
+                // Move the cloned `i` into the closure
+                _ = dispatch!(Workspace, WorkspaceIdentifierWithSpecial::Id(i_clone));
+            });
+            workspaces_box.append(&w_button)
+        }
+    };
+    update_workspaces();
 
     window.set_child(Some(&master_center_box));
     window.set_namespace("top_bar");

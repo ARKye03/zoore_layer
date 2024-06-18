@@ -1,6 +1,9 @@
 window#top_bar {
   background-color: #{"@theme_bg_color"};
-  min-height: 25px;
+  min-height: 30px;
   border-radius: 10px;
   padding: 8px;
+}
+.focused {
+  background-color: #ff0000;
 }

@@ -1,3 +1,4 @@
+mod services;
 mod utils;
 mod watch;
 mod widgets;
