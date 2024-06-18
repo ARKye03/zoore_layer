@@ -1,3 +1,4 @@
+mod utils;
 mod widgets;
 
 use gtk::gdk::Display;
