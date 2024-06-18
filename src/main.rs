@@ -1,16 +1,14 @@
-mod top_bar;
+mod widgets;
 
 use gtk::gdk::Display;
 use gtk::{prelude::*, CssProvider};
 use std::fs;
 use std::process;
 
-// https://github.com/wmww/gtk-layer-shell/blob/master/examples/simple-example.c
 fn activate(application: &gtk::Application) {
-    // Create a normal GTK window however you like
-    let window = top_bar::master::top_bar_window(application);
+    let top_bar_window = widgets::top_bar::master::top_bar_window(application);
 
-    window.present()
+    top_bar_window.present()
 }
 
 fn main() {
