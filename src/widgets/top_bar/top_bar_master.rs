@@ -6,6 +6,7 @@ use hyprland::{
     dispatch::{Dispatch, DispatchType, WorkspaceIdentifierWithSpecial},
     shared::{HyprData, HyprDataActive},
 };
+use tokio::sync::watch;
 
 pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
     let window = gtk::ApplicationWindow::new(application);
@@ -72,7 +73,23 @@ fn border_buttons(builder: &gtk::Builder) {
     app_launcher_button_icon.set_pixel_size(25);
     app_launcher_button_icon.set_from_file(Some("assets/applauncher.svg"));
 }
+
 fn render_workspaces(builder: gtk::Builder) {
+    let (tx, mut rx) = watch::channel(hyprland::data::Workspace::get_active().unwrap());
+
+    // Spawn a new task that updates the active workspace and sends it to the watch channel
+    tokio::spawn(async move {
+        let mut last_active_workspace = hyprland::data::Workspace::get_active().unwrap();
+        loop {
+            // Update the active workspace...
+            let active_workspace = hyprland::data::Workspace::get_active().unwrap();
+            if active_workspace != last_active_workspace {
+                tx.send(active_workspace.clone()).unwrap();
+                last_active_workspace = active_workspace;
+            }
+            tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+        }
+    });
     let workspaces_box: gtk::Box = builder
         .object("workspaces_box")
         .expect("Couldn't get GtkBox workspaces_box");
@@ -80,8 +97,21 @@ fn render_workspaces(builder: gtk::Builder) {
     let wicons = [" ", " ", "󰨞 ", " ", " ", "󰭹 ", " ", " ", "󰊖 ", " "];
     let arr: Vec<i32> = (1..10).collect();
 
-    let update_workspaces = || {
+    let update_workspaces = move || {
         let workspaces = hyprland::data::Workspaces::get().unwrap();
+
+        // Clear the box before adding new buttons
+        if let Some(mut child) = workspaces_box.first_child() {
+            loop {
+                let next = child.next_sibling();
+                workspaces_box.remove(&child);
+                if let Some(next_child) = next {
+                    child = next_child;
+                } else {
+                    break;
+                }
+            }
+        }
 
         for i in &arr {
             let mut class_name = "";
@@ -109,53 +139,10 @@ fn render_workspaces(builder: gtk::Builder) {
         }
     };
     update_workspaces();
+    gio::glib::MainContext::default().spawn_local(async move {
+        loop {
+            let _ = rx.changed().await;
+            update_workspaces();
+        }
+    });
 }
-/* import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
-
-export const Workspaces = () =>
-  Widget.Box({
-    className: "workspaces",
-    setup: (self) => {
-      const Wicons = [
-        "",
-        " ",
-        " ",
-        "󰨞 ",
-        " ",
-        " ",
-        "󰭹 ",
-        " ",
-        " ",
-        "󰊖 ",
-        " ",
-      ];
-      const arr = Array.from({ length: 10 }, (_, i) => i + 1);
-
-      const updateWorkspaces = () => {
-        self.children = arr.map((i) => {
-          let className = ""; // default value
-
-          if (Hyprland.active.workspace.id === i) {
-            className = "focused";
-          } else if (
-            Hyprland.workspaces.some((ws) => ws.id === i && ws.windows > 0)
-          ) {
-            className = "work";
-          }
-
-          return Widget.Button({
-            onClicked: () =>
-              execAsync(`/usr/bin/hyprctl dispatch workspace ${i}`),
-            child: Widget.Label(`${Wicons[i]}`),
-            className: className,
-          });
-        });
-      };
-
-      self.hook(Hyprland.active.workspace, updateWorkspaces, "changed");
-      updateWorkspaces();
-    },
-  });
- */
