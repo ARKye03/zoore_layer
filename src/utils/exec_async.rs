@@ -1,7 +1,8 @@
+use std::str;
 use tokio::process::Command;
 use tokio::runtime::Runtime;
 
-pub fn exec_async(command: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
     let parts: Vec<&str> = command.split_whitespace().collect();
     let (command, args) = parts.split_at(1);
 
@@ -15,6 +16,9 @@ pub fn exec_async(command: &str) -> Result<(), Box<dyn std::error::Error>> {
             .await
             .expect("Failed to run command");
 
-        Ok(())
+        // Convert the output to a string
+        let stdout = str::from_utf8(&output.stdout)?.trim().to_string();
+
+        Ok(stdout)
     })
 }

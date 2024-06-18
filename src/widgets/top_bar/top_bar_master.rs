@@ -35,8 +35,7 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
         .object("app_launcher_button")
         .expect("Couldn't get GtkButton app_launcher_button");
     app_launcher_button.connect_clicked(|_| {
-        println!("clicked");
-        _ = utils::exec_async::exec_async("/usr/bin/thunar");
+        _ = utils::exec_async::exec_async("notify-send \"Hello World\"");
     });
 
     let app_launcher_button_icon: gtk::Image = builder
