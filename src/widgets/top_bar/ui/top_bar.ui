@@ -11,6 +11,9 @@
         <property name="spacing">10</property>
         <child>
           <object class="GtkButton" id="app_launcher_button">
+            <property name="child">
+              <object class="GtkImage" id="app_launcher_button_icon"/>
+            </property>
             <property name="has-tooltip">True</property>
             <property name="tooltip-text">Applications</property>
           </object>
@@ -48,6 +51,9 @@
         </child>
         <child>
           <object class="GtkButton" id="sys_button">
+            <property name="child">
+              <object class="GtkImage" id="sys_button_icon"/>
+            </property>
             <property name="has-tooltip">True</property>
             <property name="tooltip-text">Side Dashboard</property>
           </object>
