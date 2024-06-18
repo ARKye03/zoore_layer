@@ -6,7 +6,7 @@ use std::fs;
 use std::process;
 
 fn activate(application: &gtk::Application) {
-    let top_bar_window = widgets::top_bar::master::top_bar_window(application);
+    let top_bar_window = widgets::top_bar::top_bar_master::top_bar_window(application);
 
     top_bar_window.present()
 }
