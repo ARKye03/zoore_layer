@@ -1,16 +1,20 @@
 use tokio::process::Command;
+use tokio::runtime::Runtime;
 
-pub async fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
+pub fn exec_async(command: &str) -> Result<(), Box<dyn std::error::Error>> {
     let parts: Vec<&str> = command.split_whitespace().collect();
     let (command, args) = parts.split_at(1);
 
-    let child = Command::new(command[0]).args(args).spawn()?;
+    let rt = Runtime::new().unwrap(); // Create a new Tokio runtime
 
-    let output = child.wait_with_output().await?;
+    rt.block_on(async {
+        // Use the runtime to run the async task
+        let output = Command::new(command[0])
+            .args(args)
+            .output()
+            .await
+            .expect("Failed to run command");
 
-    if output.status.success() {
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
-    } else {
-        Err(String::from_utf8_lossy(&output.stderr).into())
-    }
+        Ok(())
+    })
 }
