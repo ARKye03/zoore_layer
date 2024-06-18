@@ -1,4 +1,5 @@
 mod utils;
+mod watch;
 mod widgets;
 
 use gtk::gdk::Display;
@@ -44,4 +45,5 @@ fn load_css() {
         &provider,
         gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
+    _ = watch::watch_styles();
 }
