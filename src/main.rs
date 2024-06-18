@@ -20,9 +20,9 @@ fn activate(application: &gtk::Application) {
 
     // The margins are the gaps around the window's edges
     // Margins and anchors can be set like this...
-    window.set_margin(Edge::Left, 20);
-    window.set_margin(Edge::Right, 20);
-    window.set_margin(Edge::Top, 10);
+    window.set_margin(Edge::Left, 10);
+    window.set_margin(Edge::Right, 10);
+    window.set_margin(Edge::Bottom, 25);
 
     // ... or like this
     // Anchors are if the window is pinned to each edge of the output
@@ -46,14 +46,15 @@ fn activate(application: &gtk::Application) {
         println!("Hello")
     });
 
-    let builder = gtk::Builder::from_file("src/ui/topbat.ui");
+    let builder = gtk::Builder::from_file("src/ui/top_bar.ui");
     let master_center_box: gtk::CenterBox = builder
-        .object("GtkCenterBox")
+        .object("bar_CenterBox")
         .expect("Couldn't get GtkCenterBox");
 
     button.set_child(Some(&icon));
     window.set_child(Some(&master_center_box));
-    window.set_visible(true);
+    window.set_namespace("top_bar");
+    window.set_widget_name("top_bar");
     window.present()
 }
 

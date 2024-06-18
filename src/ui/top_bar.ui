@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.90.2 -->
+<interface>
+  <!-- interface-name top_bar.ui -->
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkCenterBox" id="bar_CenterBox">
+    <property name="css-classes">bar_CenterBox</property>
+    <child type="start">
+      <object class="GtkBox" id="start_box">
+        <property name="halign">start</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkButton" id="app_launcher_button">
+            <property name="has-tooltip">True</property>
+            <property name="tooltip-text">Applications</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="workspaces_box"/>
+        </child>
+      </object>
+    </child>
+    <child type="center">
+      <object class="GtkBox" id="center_box">
+        <property name="halign">center</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkButton" id="media_button"/>
+        </child>
+      </object>
+    </child>
+    <child type="end">
+      <object class="GtkBox" id="end_box">
+        <property name="halign">end</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkLabel" id="vol_label">
+            <property name="label">volume</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="clock_label">
+            <property name="label">clock</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="systray_box"/>
+        </child>
+        <child>
+          <object class="GtkButton" id="sys_button">
+            <property name="has-tooltip">True</property>
+            <property name="tooltip-text">Side Dashboard</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

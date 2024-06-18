@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<cambalache-project version="0.17.3" target_tk="gtk-4.0">
+  <ui>
+	(1,None,"top_bar.ui","top_bar.ui",None,None,None,None,None,None,None)
+  </ui>
+  <object>
+	(1,1,"GtkCenterBox","bar_CenterBox",None,None,None,None,-1,None,None),
+	(1,2,"GtkBox","start_box",1,None,"start",None,-1,None,None),
+	(1,3,"GtkBox","center_box",1,None,"center",None,-1,None,None),
+	(1,4,"GtkBox","end_box",1,None,"end",None,-1,None,None),
+	(1,5,"GtkButton","media_button",3,None,None,None,None,None,None),
+	(1,6,"GtkButton","app_launcher_button",2,None,None,None,None,None,None),
+	(1,7,"GtkBox","workspaces_box",2,None,None,None,1,None,None),
+	(1,8,"GtkButton","sys_button",4,None,None,None,3,None,None),
+	(1,9,"GtkBox","systray_box",4,None,None,None,2,None,None),
+	(1,10,"GtkLabel","clock_label",4,None,None,None,1,None,None),
+	(1,11,"GtkLabel","vol_label",4,None,None,None,None,None,None)
+  </object>
+  <object_property>
+	(1,1,"GtkWidget","css-classes","bar_CenterBox",None,None,None,None,None,None,None,None,None),
+	(1,2,"GtkBox","spacing","10",None,None,None,None,None,None,None,None,None),
+	(1,2,"GtkWidget","halign","start",None,None,None,None,None,None,None,None,None),
+	(1,3,"GtkBox","spacing","10",None,None,None,None,None,None,None,None,None),
+	(1,3,"GtkWidget","halign","center",None,None,None,None,None,None,None,None,None),
+	(1,4,"GtkBox","spacing","10",None,None,None,None,None,None,None,None,None),
+	(1,4,"GtkWidget","halign","end",None,None,None,None,None,None,None,None,None),
+	(1,6,"GtkWidget","has-tooltip","True",None,None,None,None,None,None,None,None,None),
+	(1,6,"GtkWidget","tooltip-text","Applications",None,None,None,None,None,None,None,None,None),
+	(1,8,"GtkWidget","has-tooltip","True",None,None,None,None,None,None,None,None,None),
+	(1,8,"GtkWidget","tooltip-text","Side Dashboard",None,None,None,None,None,None,None,None,None),
+	(1,10,"GtkLabel","label","clock",None,None,None,None,None,None,None,None,None),
+	(1,11,"GtkLabel","label","volume",None,None,None,None,None,None,None,None,None)
+  </object_property>
+</cambalache-project>

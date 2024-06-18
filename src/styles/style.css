@@ -2,3 +2,7 @@ button {
   background-color: #e30a1c; }
   button:hover {
     background-color: blueviolet; }
+
+window#top_bar {
+  border-radius: 10px;
+  padding: 8px; }
