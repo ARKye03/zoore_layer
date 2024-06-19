@@ -12,14 +12,15 @@ Simple project to create a gtk-layer-shell with GTK4 and rust bindings.
 
 - [ ] Watch utility
 - [ ] Async command execution \[WIP\]
-- [ ] Audio service
-- [ ] Network Service
-- [ ] Bluetooth Service
-- [ ] Power Service
-- [ ] Applications Service
-- [ ] Clipboard Service
-- [ ] Notifications Service
-- [ ] System tray service
+- [ ] Lockscreen
+- Services
+  - [ ] System tray
+  - [ ] Network
+  - [ ] Notifications
+  - [ ] Applications
+  - [ ] Audio
+  - [ ] Mpris
+  - [ ] Clipboard
 
 ### Note
 
