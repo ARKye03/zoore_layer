@@ -27,11 +27,14 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
 
     let master_center_box: gtk::CenterBox = builder
         .object("bar_CenterBox")
-        .expect("Couldn't get GtkCenterBox");
+        .expect("Couldn't get bar_CenterBox");
 
-    super::border_buttons::border_buttons(&builder);
+    super::border_buttons::border_buttons(builder.clone());
+    super::workspace_renderer::render_workspaces(builder.clone());
 
-    super::workspace_renderer::render_workspaces(builder);
+    let clock_label: gtk::Label = builder
+        .object("clock_label")
+        .expect("Couldn't get clock_label");
 
     window.set_child(Some(&master_center_box));
     window.set_namespace("top_bar");
