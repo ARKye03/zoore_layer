@@ -2,7 +2,6 @@ use std::str;
 use tokio::process::Command;
 use tokio::runtime::Runtime;
 
-#[tokio::main]
 pub async fn exec_async(command: &str) -> Result<String, Box<dyn std::error::Error>> {
     let parts: Vec<&str> = command.split_whitespace().collect();
     let (command, args) = parts.split_at(1);
