@@ -1,6 +1,6 @@
 use gtk::prelude::*;
 
-pub fn border_buttons(builder: &gtk::Builder) {
+pub fn border_buttons(builder: gtk::Builder) {
     let app_launcher_button: gtk::Button = builder
         .object("app_launcher_button")
         .expect("Couldn't get GtkButton app_launcher_button");
