@@ -8,8 +8,8 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
-  LD_LIBRARY_PATH: /usr/local/lib
+  # PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+  # LD_LIBRARY_PATH: /usr/local/lib
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwayland-dev libgtk-4-dev libgtk-4-1 gobject-introspection libgirepository1.0-dev gtk-doc-tools python3 valac
+          sudo apt-get install -y libwayland-dev libgtk-4-dev gobject-introspection libgirepository1.0-dev gtk-doc-tools python3 valac
       - name: Build
         run: cargo build --verbose
       - name: Run tests
