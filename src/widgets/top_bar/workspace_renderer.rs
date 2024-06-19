@@ -26,32 +26,40 @@ pub fn render_workspaces(builder: gtk::Builder) {
         .object("workspaces_box")
         .expect("Couldn't get GtkBox workspaces_box");
 
-    let wicons = [" ", " ", "󰨞 ", " ", " ", "󰭹 ", " ", " ", "󰊖 ", " "];
+    let wicons = [
+        " ", " ", " ", "󰨞 ", " ", " ", "󰭹 ", " ", " ", "󰊖 ", " ",
+    ];
     let arr: Vec<i32> = (1..10).collect();
+
+    // Create the buttons once and store them in a Vec
+    let mut buttons: Vec<gtk::Button> = Vec::new();
+    for i in &arr {
+        let w_button = gtk::Button::new();
+        // Skip the first icon by starting from 1
+        w_button.set_label(wicons[*i as usize]);
+        let i_clone = *i; // Clone `i` here
+        w_button.connect_clicked(move |_| {
+            // Move the cloned `i` into the closure
+            _ = dispatch!(Workspace, WorkspaceIdentifierWithSpecial::Id(i_clone));
+        });
+        workspaces_box.append(&w_button);
+        buttons.push(w_button);
+    }
 
     let update_workspaces = move || {
         let workspaces = hyprland::data::Workspaces::get().unwrap();
 
-        // Clear the box before adding new buttons
-        if let Some(mut child) = workspaces_box.first_child() {
-            loop {
-                let next = child.next_sibling();
-                workspaces_box.remove(&child);
-                if let Some(next_child) = next {
-                    child = next_child;
-                } else {
-                    break;
-                }
-            }
-        }
-
-        for i in &arr {
+        for (i, button) in buttons.iter().enumerate() {
             let mut class_name = "";
             match hyprland::data::Workspace::get_active() {
                 Ok(active_workspace) => {
-                    if active_workspace.id == *i {
+                    // Subtract 1 from the workspace ID to get the correct index
+                    if active_workspace.id == (i as i32 + 1) {
                         class_name = "focused";
-                    } else if workspaces.iter().any(|ws| ws.id == *i && ws.windows > 0) {
+                    } else if workspaces
+                        .iter()
+                        .any(|ws| ws.id == (i as i32 + 1) && ws.windows > 0)
+                    {
                         class_name = "work";
                     }
                 }
@@ -59,15 +67,7 @@ pub fn render_workspaces(builder: gtk::Builder) {
                     eprintln!("Error getting active workspace: {:?}", e);
                 }
             }
-            let w_button = gtk::Button::new();
-            w_button.set_label(wicons[*i as usize - 1]);
-            w_button.set_css_classes(&[class_name]);
-            let i_clone = *i; // Clone `i` here
-            w_button.connect_clicked(move |_| {
-                // Move the cloned `i` into the closure
-                _ = dispatch!(Workspace, WorkspaceIdentifierWithSpecial::Id(i_clone));
-            });
-            workspaces_box.append(&w_button)
+            button.set_css_classes(&[class_name]);
         }
     };
     update_workspaces();
