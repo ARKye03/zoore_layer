@@ -30,6 +30,7 @@
 	(1,6,"GtkButton","child",None,None,None,None,None,12,None,None,None,None),
 	(1,6,"GtkWidget","has-tooltip","True",None,None,None,None,None,None,None,None,None),
 	(1,6,"GtkWidget","tooltip-text","Applications",None,None,None,None,None,None,None,None,None),
+	(1,7,"GtkWidget","css-classes","workspaces_box",None,None,None,None,None,None,None,None,None),
 	(1,8,"GtkButton","child",None,None,None,None,None,13,None,None,None,None),
 	(1,8,"GtkWidget","has-tooltip","True",None,None,None,None,None,None,None,None,None),
 	(1,8,"GtkWidget","tooltip-text","Side Dashboard",None,None,None,None,None,None,None,None,None),

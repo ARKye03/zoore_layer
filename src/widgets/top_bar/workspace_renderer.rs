@@ -67,7 +67,7 @@ pub fn render_workspaces(builder: gtk::Builder) {
                     eprintln!("Error getting active workspace: {:?}", e);
                 }
             }
-            button.set_css_classes(&[class_name]);
+            button.set_css_classes(&[class_name, "workspace_button"]);
         }
     };
     update_workspaces();

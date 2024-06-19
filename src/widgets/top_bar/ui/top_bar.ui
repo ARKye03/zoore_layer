@@ -19,7 +19,9 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="workspaces_box"/>
+          <object class="GtkBox" id="workspaces_box">
+            <property name="css-classes">workspaces_box</property>
+          </object>
         </child>
       </object>
     </child>
