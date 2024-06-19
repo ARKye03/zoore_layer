@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "vadimcn.vscode-lldb",
+        "mkhl.direnv",
+        "tamasfe.even-better-toml",
+        "rust-lang.rust-analyzer"
+    ]
+}
