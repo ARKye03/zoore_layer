@@ -31,10 +31,11 @@ pub fn top_bar_window(application: &gtk::Application) -> ApplicationWindow {
 
     super::border_buttons::border_buttons(builder.clone());
     super::workspace_renderer::render_workspaces(builder.clone());
+    super::media_box::media_box(&builder);
 
-    let clock_label: gtk::Label = builder
-        .object("clock_label")
-        .expect("Couldn't get clock_label");
+    // let clock_label: gtk::Label = builder
+    //     .object("clock_label")
+    //     .expect("Couldn't get clock_label");
 
     window.set_child(Some(&master_center_box));
     window.set_namespace("top_bar");

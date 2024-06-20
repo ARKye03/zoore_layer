@@ -30,7 +30,12 @@
         <property name="halign">center</property>
         <property name="spacing">10</property>
         <child>
-          <object class="GtkButton" id="media_button"/>
+          <object class="GtkButton" id="media_button">
+            <property name="child">
+              <object class="GtkLabel" id="media_button_label"/>
+            </property>
+            <property name="label">media</property>
+          </object>
         </child>
       </object>
     </child>

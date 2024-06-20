@@ -10,5 +10,6 @@ gio = "0.19.5"
 gtk = { version = "0.8.2", package = "gtk4", features = ["v4_14"] }
 gtk4-layer-shell = "0.3.0"
 hyprland = { git = "https://github.com/hyprland-community/hyprland-rs", branch = "master" }
+mpris = "2.0.1"
 notify = "6.1.1"
 tokio = { version = "1.38.0", features = ["full"] }
