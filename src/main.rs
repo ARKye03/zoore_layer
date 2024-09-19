@@ -32,8 +32,8 @@ fn load_css() {
     let output_css = "src/styles/style.css";
 
     process::Command::new("sassc")
-        .arg(&input_scss)
-        .arg(&output_css)
+        .arg(input_scss)
+        .arg(output_css)
         .status()
         .expect("Failed to run sassc");
 
